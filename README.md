@@ -4,7 +4,7 @@
 --Mode aléatoire.
 --Mode afficher la balance (vraiment fonctionnel).
 
-Possibilitée de changer le code pour afficher les adresses non compressées et même enlever le mode random.
+## Possibilitée de changer le code pour afficher les adresses non compressées et même enlever le mode random.
 
 Install Go 1.10
 
