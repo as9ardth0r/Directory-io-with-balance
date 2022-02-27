@@ -1,6 +1,6 @@
 # Directory-io-with-balance
 
---Fonctionne pour les adresses compressées.
+--Fonctionne pour les adresses compressées. 
 --Mode aléatoire.
 --Mode afficher la balance (vraiment fonctionnel).
 
