@@ -14,7 +14,7 @@ import (
 	"github.com/btcsuite/btcutil"
 )
 
-const ResultsPerPage = 128
+const ResultsPerPage = 60
 
 const PageTemplateHeader = `<html>
 <head>
@@ -145,7 +145,7 @@ var _0x1a3e = ['.keys a[href*="blockchain"]', "querySelectorAll", "href", "/", "
 </body>
 </html>`
 
-const KeyTemplate = `<span id="%s"><a href="/warning:understand-how-this-works!/%s">+</a> <span title="%s">%s </span> <a href="https://blockchain.info/address/%s ">%34s </a>
+const KeyTemplate = `<span id="%s"><a href="/warning:understand-how-this-works!/%s">+</a> <span title="%s">%s </span> <a href="https://blockchain.info/address/%s">%34s </a> <a href="https://blockchain.info/address/%s">%34s </a> <a href="https://blockchain.info/address/%s">%34s </a></span>
 `
 
 var (
@@ -168,6 +168,8 @@ type Key struct {
 	number       string
 	compressed   string
 	uncompressed string
+	segwit       string
+	psh         string
 }
 
 func compute(count *big.Int) (keys [ResultsPerPage]Key, length int) {
@@ -191,10 +193,13 @@ func compute(count *big.Int) (keys [ResultsPerPage]Key, length int) {
 		h := sha256.New()
 	        h.Write(padded[:])
                 privKey, public := btcec.PrivKeyFromBytes(btcec.S256(), h.Sum(nil))
-
+		witnessProg := btcutil.Hash160(public.SerializeCompressed())
+		
 		// Get compressed and uncompressed addresses for public key
 		caddr, _ := btcutil.NewAddressPubKey(public.SerializeCompressed(), &chaincfg.MainNetParams)
 		uaddr, _ := btcutil.NewAddressPubKey(public.SerializeUncompressed(), &chaincfg.MainNetParams)
+		saddr, _ := btcutil.NewAddressWitnessPubKeyHash(witnessProg, &chaincfg.MainNetParams)
+		p2sh, _ := btcutil.NewAddressScriptHash(public.SerializeCompressed(), &chaincfg.MainNetParams)
 
 		// Encode addresses
 		wif, _ := btcutil.NewWIF(privKey, &chaincfg.MainNetParams, false)
@@ -202,6 +207,8 @@ func compute(count *big.Int) (keys [ResultsPerPage]Key, length int) {
 		keys[i].number = count.String()
 		keys[i].compressed = caddr.EncodeAddress()
 		keys[i].uncompressed = uaddr.EncodeAddress()
+		keys[i].segwit = saddr.EncodeAddress()
+		keys[i].psh = p2sh.EncodeAddress()
 	}
 	return keys, i
 }
@@ -246,7 +253,7 @@ func PageRequest(w http.ResponseWriter, r *http.Request) {
 	for i := 0; i < length; i++ {
 		key := keys[i]
 		if strings.HasPrefix(key.compressed, "1") {
-		fmt.Fprintf(w, KeyTemplate, key.private, key.private, key.number, key.private, key.compressed, key.compressed)
+		fmt.Fprintf(w, KeyTemplate, key.private, key.private, key.number, key.private, key.compressed, key.compressed, key.psh, key.psh, key.segwit, key.segwit)
 		}
 	}
 
@@ -276,5 +283,5 @@ func main() {
 	http.HandleFunc("/warning:understand-how-this-works!/", RedirectRequest)
 
 	log.Println("Listening")
-	log.Fatal(http.ListenAndServe(":80", nil))
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
