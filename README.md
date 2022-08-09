@@ -6,6 +6,12 @@
 --Mode afficher la balance (vraiment fonctionnel).
 --Mode choix du prefix recherché.
 ```
+
+```bash
+![ezcv logo](https://raw.githubusercontent.com/as9ardth0r/Directory-io-with-balance/main/Capture%20d%E2%80%99%C3%A9cran%20de%202022-08-10%2020-01-26.png)
+```
+
+
 ## Possibilitée de changer le code pour afficher les adresses non compressées et même supprimer le mode random.
 ```bash
 Install Go 1.10
