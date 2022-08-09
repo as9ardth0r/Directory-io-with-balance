@@ -1,7 +1,7 @@
 # Directory-io-with-balance
 ```bash
 --Fonctionne pour les adresses compressées. 
---Type d'adresses : Pubkeyhash, Scripthash, Bech32 pubkeyhash
+--Adresse type : Pubkeyhash, Scripthash, Bech32 pubkeyhash
 --Mode aléatoire.
 --Mode afficher la balance (vraiment fonctionnel).
 ```
