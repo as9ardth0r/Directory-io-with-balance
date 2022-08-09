@@ -11,12 +11,9 @@ Install Go 1.10
 
 Installer les dependences:
 
-$ go get github.com/btcsuite/btcd
-```
-si cela ne fonctionne pas de vous conseil de télécharger :
-```bash
-pour btcd : https://github.com/btcsuite/btcd/archive/refs/tags/v0.21.0-beta.zip
-pour btcutil : https://github.com/btcsuite/btcutil/archive/refs/tags/psbt/v1.0.2.zip
+pour btcd : hhttps://github.com/as9ardth0r/btcd-v0.21.0-beta.git
+pour btcutil : https://github.com/as9ardth0r/btcutil-v1.0.2.git
+pour crypto : https://github.com/as9ardth0r/crypto.git
 ```
 ```bash
 $ go run directory.go
