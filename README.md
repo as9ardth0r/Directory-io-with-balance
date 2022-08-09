@@ -19,5 +19,5 @@ pour crypto : https://github.com/as9ardth0r/crypto.git
 $ go run directory.go
 ```
 ```bash
-Par default sur le port port 80. http://localhost:8080
+Par default sur le port port 8080. http://localhost:8080
  ```
