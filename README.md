@@ -5,6 +5,7 @@
 --Mode aléatoire.
 --Mode afficher la balance (vraiment fonctionnel).
 --Mode choix du prefix recherché.
+--Affichage des clefs publiques compréssées.
 ```
 
 ![ezcv logo](https://raw.githubusercontent.com/as9ardth0r/Directory-io-with-balance/main/directory.png)
