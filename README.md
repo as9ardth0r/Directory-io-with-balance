@@ -7,7 +7,7 @@
 --Mode choix du prefix recherché.
 ```
 
-![ezcv logo](https://raw.githubusercontent.com/as9ardth0r/Directory-io-with-balance/main/Capture%20d%E2%80%99%C3%A9cran%20de%202022-08-10%2020-01-26.png)
+![ezcv logo](https://raw.githubusercontent.com/as9ardth0r/Directory-io-with-balance/main/directory.png)
 
 
 ## Possibilité de changer le code pour afficher les adresses non compressées et même supprimer le mode random.
