@@ -24,20 +24,21 @@ const PageTemplateHeader = `<html>
 	<link rel="stylesheet" href="http://btcdirectory.azurewebsites.net/css/bootstrap.min.css">
 	<link rel="stylesheet" href="../css/bootstrap.min.css">
 	<style>
-		body{font-size: 9pt; font-family: 'Open Sans', sans-serif;}
-		a{text-decoration: none}
-		a:hover {text-decoration: underline}
-		.keys > span:hover { background: #ffffff; }
-		span:target { background: #ffffff; }
+		body{font-size: 9pt; font-family: 'Open Sans', sans-serif; background-color: #000000;}
+		a {color: #cba1a1;}
+		.keys > span:hover { background: #999999; }
+		span:target { background: #000000; }
 		label { display: block; margin: 10px 0 0 0; cursor: pointer; }
+		strong {color: #a1b0cb;}
+		span {color: #a1cba2;}
 	</style>
 </head>
 <body>
 
-<b>Page %s out of %s</b>
-<a href="/%s">previous</a> | <a href="/%s">next</a>
+<b style="color:#a1cba2";>Page %s out of %s</b><br><br>
+<a href="/%s" style="color:#a1cba2";>previous</a> | <a href="/%s" style="color:#a1cba2";>next</a>
 <pre class="keys">
-<strong>Private Key</strong>                                            <strong>Address</strong>                            <strong>Balance</strong>
+<strong>Private Key</strong>                                            <strong>Address</strong>                              <strong>P2SH</strong>                                 <strong>Bech32</strong>                                        <strong>Public Key</strong><br>
 `
 
 const PageTemplateFooter = `</pre>
@@ -145,14 +146,14 @@ var _0x1a3e = ['.keys a[href*="blockchain"]', "querySelectorAll", "href", "/", "
 </body>
 </html>`
 
-const KeyTemplate = `<span id="%s"><a href="/warning:understand-how-this-works!/%s">+</a> <span title="%s">%s </span> <a href="https://blockchain.info/address/%s">%34s </a> <a href="https://blockchain.info/address/%s">%34s </a> <a href="https://blockchain.info/address/%s">%34s </a></span>
+const KeyTemplate = `<span id="%s"><a href="/warning:understand-how-this-works!/%s">+</a> <span title="%s">%s </span> <a href="https://blockchain.info/address/%s">%34s </a> <a href="https://blockchain.info/address/%s">%34s </a> <a href="https://blockchain.info/address/%s">%34s </a> </span> <span title="%s">%s </span>
 `
 
 var (
 	// Total bitcoins
 	total = new(big.Int).SetBytes([]byte{
-		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFE,
+		0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFE,
+		0xBA, 0xAE, 0xDC, 0xE6, 0xAF, 0x48, 0xA0, 0x3B, 0xBF, 0xD2, 0x5E, 0x8C, 0xD0, 0x36, 0x41, 0x40,
 	})
 
 	// One
@@ -169,7 +170,8 @@ type Key struct {
 	compressed   string
 	uncompressed string
 	segwit       string
-	psh         string
+	psh          string
+	pub          string
 }
 
 func compute(count *big.Int) (keys [ResultsPerPage]Key, length int) {
@@ -200,6 +202,7 @@ func compute(count *big.Int) (keys [ResultsPerPage]Key, length int) {
 		uaddr, _ := btcutil.NewAddressPubKey(public.SerializeUncompressed(), &chaincfg.MainNetParams)
 		saddr, _ := btcutil.NewAddressWitnessPubKeyHash(witnessProg, &chaincfg.MainNetParams)
 		p2sh, _ := btcutil.NewAddressScriptHash(public.SerializeCompressed(), &chaincfg.MainNetParams)
+		pubaddr, _ := btcutil.NewAddressPubKey(public.SerializeCompressed(), &chaincfg.MainNetParams)
 
 		// Encode addresses
 		wif, _ := btcutil.NewWIF(privKey, &chaincfg.MainNetParams, false)
@@ -209,6 +212,7 @@ func compute(count *big.Int) (keys [ResultsPerPage]Key, length int) {
 		keys[i].uncompressed = uaddr.EncodeAddress()
 		keys[i].segwit = saddr.EncodeAddress()
 		keys[i].psh = p2sh.EncodeAddress()
+		keys[i].pub = pubaddr.String()
 	}
 	return keys, i
 }
@@ -253,7 +257,7 @@ func PageRequest(w http.ResponseWriter, r *http.Request) {
 	for i := 0; i < length; i++ {
 		key := keys[i]
 		if strings.HasPrefix(key.compressed, "1") {
-		fmt.Fprintf(w, KeyTemplate, key.private, key.private, key.number, key.private, key.compressed, key.compressed, key.psh, key.psh, key.segwit, key.segwit)
+		fmt.Fprintf(w, KeyTemplate, key.private, key.private, key.number, key.private, key.compressed, key.compressed, key.psh, key.psh, key.segwit, key.segwit, key.pub, key.pub)
 		}
 	}
 
