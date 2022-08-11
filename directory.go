@@ -21,8 +21,6 @@ const PageTemplateHeader = `<html>
 	<title>All bitcoin private keys</title>
 	<meta charset="utf8" />
 	<link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" href="http://btcdirectory.azurewebsites.net/css/bootstrap.min.css">
-	<link rel="stylesheet" href="../css/bootstrap.min.css">
 	<style>
 		body{font-size: 9pt; font-family: 'Open Sans', sans-serif; background-color: #000000;}
 		a {color: #cba1a1;}
