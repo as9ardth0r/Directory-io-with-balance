@@ -29,3 +29,6 @@ $ go run directory.go
 ```bash
 Par default sur le port port 8080. http://localhost:8080
  ```
+ ```bash
+Donation : 18uM6LstzxbjeMCTwkmdEwFxGSrQ4yT6qn
+ ```
